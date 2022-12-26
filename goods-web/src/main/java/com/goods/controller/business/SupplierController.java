@@ -21,9 +21,10 @@ public class SupplierController {
     @Autowired
     private SupplierService supplierService;
 
+    //http://www.localhost:8989/business/supplier/findAll
     //http://localhost:8989/business/supplier/findSupplierList?pageNum=1&pageSize=10&name=昌平&address=北京&contact=张三
     //分页查询来源列表
-    @GetMapping("findSupplierList")
+    @GetMapping(value = {"findSupplierList","findAll"})
     public ResponseBean findSupplierList(@RequestParam(value = "pageNum",required = false)Integer pageNum,
                                          @RequestParam(value = "pageSize",required = false)Integer pageSize,
                                          @RequestParam(value = "name",required = false)String name,

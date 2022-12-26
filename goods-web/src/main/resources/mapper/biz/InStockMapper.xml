@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.goods.business.mapper.InStockMapper">
+
+    <!--入库记录-->
+
+    <resultMap id="detailResultMap" type="com.goods.common.vo.business.InStockDetailVO" autoMapping="true">
+        <id column="in_num" property="inNum"/>
+        <collection property="supplierVO" ofType="com.goods.common.vo.business.SupplierVO" autoMapping="true">
+            <id column="sid" property="id"/>
+        </collection>
+        <collection property="itemVOS" ofType="com.goods.common.vo.business.InStockItemVO" autoMapping="true">
+            <id column="pid" property="id"/>
+        </collection>
+    </resultMap>
+
+    <!--查询入库列表-->
+    <select id="findInStockList" resultType="com.goods.common.vo.business.InStockVO">
+        select i.id, i.in_num, i.type, i.operator, i.create_time, i.modified, i.product_number, i.supplier_id, i.remark, i.status,
+        s.name supplierName, s.address, s.email, s.phone, s.sort, s.contact
+        from biz_in_stock i inner join biz_supplier s
+        on i.supplier_id=s.id where i.status=#{status}
+    </select>
+
+    <!--查询入库明细-->
+    <select id="detail" resultMap="detailResultMap">
+        select i.id, i.in_num, i.type, i.operator, i.create_time, i.modified, i.product_number, i.supplier_id, i.remark, i.status,
+        s.id sid, s.name, s.address, s.email, s.phone, s.create_time, s.modified_time, s.sort, s.contact,
+        p.id pid, p.p_num, p.name, p.image_url, p.model, p.unit, p.remark, p.sort, p.create_time, p.modified_time, p.one_category_id, p.two_category_id, p.three_category_id, p.status,ii.product_number `count`
+        from `yiqing-goods`.biz_in_stock i
+        inner join `yiqing-goods`.biz_supplier s on i.supplier_id=s.id
+        left join `yiqing-goods`.biz_in_stock_info ii on i.in_num=ii.in_num
+        left join `yiqing-goods`.biz_product p on ii.p_num=p.p_num
+    </select>
+</mapper>

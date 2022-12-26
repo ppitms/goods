@@ -25,9 +25,10 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    //http://www.localhost:8989/business/product/findProducts?pageNum=1&pageSize=6&status=0
     //http://www.localhost:8989/business/product/findProductList?pageNum=1&pageSize=6&name=&categoryId=&supplier=&status=0
     //物资查询
-    @GetMapping("findProductList")
+    @GetMapping(value = {"findProductList","findProducts"})
     public ResponseBean findProductList(@RequestParam(value = "pageNum",required = false)Integer pageNum,
                                         @RequestParam(value = "pageSize",required = false)Integer pageSize,
                                         @RequestParam(value = "name",required = false)String name,
@@ -39,6 +40,7 @@ public class ProductController {
         PageVO<ProductVO> productVOList= productService.findProductList(pageNum,pageSize,name,categorys,status);
         return ResponseBean.success(productVOList);
     }
+
 
     //http://www.localhost:8989/business/product/add
     //添加物资
