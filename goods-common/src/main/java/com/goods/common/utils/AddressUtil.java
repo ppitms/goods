@@ -24,6 +24,7 @@ public class AddressUtil {
     public static String getCityInfo(String ip) {
         //db
         String dbPath = AddressUtil.class.getResource("/ip2region/ip2region.db").getPath();
+        dbPath = dbPath.replaceAll("%20", " ");
         File file = new File(dbPath);
 
         if (!file.exists()) {
@@ -74,4 +75,10 @@ public class AddressUtil {
     }
 
 
+    public static void main(String[] args) {
+        String dbPath = AddressUtil.class.getResource("/ip2region/ip2region.db").getPath();
+        dbPath = dbPath.replaceAll("%20", " ");
+        File file = new File(dbPath);
+        System.out.println(file);
+    }
 }
